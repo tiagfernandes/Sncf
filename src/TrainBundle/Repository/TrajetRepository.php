@@ -10,4 +10,24 @@ namespace TrainBundle\Repository;
  */
 class TrajetRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByGareDAndGareA($gareDepart, $gareArrive, $heureDepart, $heureArrive)
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->where('t.gareDepart = :gareDepart')
+            ->setParameter('gareDepart', $gareDepart)
+            ->andWhere('t.gareArrive = :gareArrive')
+            ->setParameter('gareArrive', $gareArrive)
+            ->andWhere('t.heureDepart = :heureDepart')
+            ->setParameter('heureDepart', $heureDepart)
+            ->andWhere('t.heureArrive = :heureArrive')
+            ->setParameter('heureArrive', $heureArrive)
+            ->orderBy('t.heureDepart', 'DESC')
+        ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
