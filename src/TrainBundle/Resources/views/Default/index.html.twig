@@ -31,6 +31,9 @@
                         {{ form_errors(form.jour) }}
                         {{ form_widget(form.jour, {'attr': {'class': 'form_date', 'placeholder': "Hitler did"}}) }}
                     </div>
+                    <div class="form-group col-md-6">
+                        {{ form_widget(form.choix, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
                 <div class="text-right">
                     {{ form_widget(form.send, {'attr': {'class': 'btn btn-info'} ,  'label': 'Trouver mon train' }) }}

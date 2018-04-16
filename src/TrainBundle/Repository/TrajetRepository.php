@@ -30,7 +30,7 @@ class TrajetRepository extends \Doctrine\ORM\EntityRepository
             ;
     }
 
-    public function findByGareDAndGareAArrive($gareDepart, $gareArrive, $jour)
+    public function findByGareDAndGareAArrive($gareDepart, $gareArrive, $jour1, $jour2)
     {
         $qb = $this->createQueryBuilder('t');
 
@@ -38,9 +38,10 @@ class TrajetRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('gareDepart', $gareDepart)
             ->andWhere('t.gareArrive = :gareArrive')
             ->setParameter('gareArrive', $gareArrive)
-            ->andWhere('t.heureArrive = :heureArrive')
-            ->setParameter('heureArrive', $jour)
-            ->orderBy('t.heureDepart', 'DESC')
+            ->andWhere('t.heureArrive BETWEEN :jour1 and :jour2')
+            ->setParameter('jour1', $jour1)
+            ->setParameter('jour2', $jour2)
+            ->orderBy('t.heureArrive', 'DESC')
         ;
 
         return $qb

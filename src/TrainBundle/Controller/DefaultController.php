@@ -20,6 +20,11 @@ class DefaultController extends Controller
             ->add('depart', TextType::class)
             ->add('arrive', TextType::class)
             ->add('jour', 'text')
+            ->add('choix', 'choice', array(
+                'choices' => array('depart' => 'Départ', 'arrive' => 'Arrivé'),
+                'expanded' => true,
+                'multiple' => false
+            ))
             ->add('send', SubmitType::class)
             ->getForm();
 
@@ -30,6 +35,7 @@ class DefaultController extends Controller
 
             $depart = $data['depart'];
             $arrive = $data['arrive'];
+            $choix = $data['choix'];
             $jour1 = new \DateTime($data['jour']);
             $jour2 = new \DateTime($data['jour']);
             $jour2->modify('+1 day');
@@ -40,13 +46,13 @@ class DefaultController extends Controller
                 ->getRepository('TrainBundle:Trajet')
             ;
 
-            /*
-            if (depart)
-            $listTrajets = $repository->findByGareDAndGareADepart($depart, $arrive, $jour->format('Y-m-d'));
-            else (arriver)
-            $listTrajets = $repository->findByGareDAndGareAArrive($depart, $arrive, $jour->format('Y-m-d'));
-            */
-            $listTrajets = $repository->findByGareDAndGareADepart($depart, $arrive, $jour1->format('Y-m-d'), $jour2->format('Y-m-d'));
+
+            if ($choix == "depart") {
+                $listTrajets = $repository->findByGareDAndGareADepart($depart, $arrive, $jour1->format('Y-m-d'), $jour2->format('Y-m-d'));
+            }
+            else if ($choix == "arrive") {
+                $listTrajets = $repository->findByGareDAndGareAArrive($depart, $arrive, $jour1->format('Y-m-d'), $jour2->format('Y-m-d'));
+            }
 
             return $this->render('TrainBundle::listTrajet.html.twig', array(
                 'trajets' => $listTrajets,
