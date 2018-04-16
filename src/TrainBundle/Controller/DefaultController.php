@@ -19,8 +19,8 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder()
             ->add('depart', TextType::class)
             ->add('arrive', TextType::class)
-            ->add('heureDepart', DateTimeType::class)
-            ->add('heureArrive', DateTimeType::class)
+            ->add('heureDepart', TextType::class)
+            ->add('heureArrive', TextType::class)
             ->add('send', SubmitType::class)
             ->getForm();
 
