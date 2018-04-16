@@ -37,13 +37,11 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    {{ form_widget(form.send, {'attr': {'class': 'btn btn-primary'} ,  'label': 'Trouver mon train' }) }}
+                    {{ form_widget(form.send, {'attr': {'class': 'btn btn-info'} ,  'label': 'Trouver mon train' }) }}
                 </div>
-                {{ form_widget(form.send, {'attr': {'class': 'btn btn-primary'} ,  'label': 'Trouver mon train' }) }}
-
                 {{ form_rest(form) }}
-
                 {{ form_end(form) }}
+                <br><br>
             </div>
         </div>
     </div>
@@ -54,7 +52,7 @@
     <script type="text/javascript">
             $(".form_datetime").datetimepicker({
                 language: "fr",
-                format: "dd MM yyyy - hh:ii",
+                format: "yyyy-mm-dd hh:ii",
                 autoclose: true,
                 todayBtn: true,
                 minuteStep: 5

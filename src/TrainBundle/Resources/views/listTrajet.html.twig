@@ -2,23 +2,24 @@
 
 {% block body %}
     <div class="container">
-        <h1>List train</h1>
+        <br><br>
+        <h1>Liste des trains</h1>
         <br><br>
         <div class="row">
                 {% for trajet in trajets %}
                     <div class="col-md-4">
                         <div class="card" style="width: 100%;">
                             <div class="card-header">
-                             <b>Train</b>
+                             <b>Train : </b>{{ trajet.train.name }}
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">Numero : {{ trajet.train.name }}</h5>
+                                <h5 class="card-title">Ligne Aryenne</h5>
                                 <p class="card-text">Gare de Départ : {{ trajet.gareDepart }}</p>
                                 <p class="card-text">Gare d'Arrivé : {{ trajet.gareArrive }}</p>
-                                <p class="card-text">Heure de Départ : {{ trajet.heureDepart|date("d/m/Y h:m") }}</p>
-                                <p class="card-text">Heure d'Arrivé : {{ trajet.heureArrive|date("d/m/Y h:m") }}</p>
+                                <p class="card-text">Heure de Départ : {{ trajet.heureDepart|date("d/m/y H:i") }}</p>
+                                <p class="card-text">Heure d'Arrivé : {{ trajet.heureArrive|date("d/m/y H:i") }}</p>
                                 <div class="text-right">
-                                    <a href="#" class="btn btn-primary ">Réserver</a>
+                                    <a href="#" class="btn btn-success ">Réserver un siège</a>
                                 </div>
                             </div>
                         </div>
