@@ -2,7 +2,9 @@
 
 {% block body %}
     <div class="container">
+        <br>
         <h1>Réserver un train</h1>
+        <br>
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
@@ -25,14 +27,9 @@
                         {{ form_widget(form.arrive, {'attr': {'class': 'form-control', 'placeholder': "Auschwitz"}}) }}
                     </div>
                     <div class="form-group col-md-6">
-                        {{ form_label(form.heureDepart, "Heure de départ", {'label_attr': {'class': 'control-label'}}) }}
-                        {{ form_errors(form.heureDepart) }}
-                        {{ form_widget(form.heureDepart, {'attr': {'class': 'form_datetime', 'placeholder': "Hitler did"}}) }}
-                    </div>
-                    <div class="form-group col-md-6">
-                        {{ form_label(form.heureArrive, "Heure de arrivé", {'label_attr': {'class': 'control-label'}}) }}
-                        {{ form_errors(form.heureArrive) }}
-                        {{ form_widget(form.heureArrive, {'attr': {'class': 'form_datetime', 'placeholder': "nothing wrong"}}) }}
+                        {{ form_label(form.jour, "Jours", {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_errors(form.jour) }}
+                        {{ form_widget(form.jour, {'attr': {'class': 'form_date', 'placeholder': "Hitler did"}}) }}
                     </div>
                 </div>
                 <div class="text-right">
@@ -49,9 +46,10 @@
 {% block javascripts_footer %}
     {{ parent() }}
     <script type="text/javascript">
-            $(".form_datetime").datetimepicker({
+            $(".form_date").datetimepicker({
+                minView: 2,
                 language: "fr",
-                format: "yyyy-mm-dd hh:ii",
+                format: "yyyy-mm-dd",
                 autoclose: true,
                 todayBtn: true,
                 minuteStep: 5

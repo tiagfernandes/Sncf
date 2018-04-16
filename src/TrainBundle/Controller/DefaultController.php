@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\Date;
 
 class DefaultController extends Controller
 {
@@ -19,21 +19,20 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder()
             ->add('depart', TextType::class)
             ->add('arrive', TextType::class)
-            ->add('heureDepart', 'text')
-            ->add('heureArrive', 'text')
+            ->add('jour', 'text')
             ->add('send', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
 
             $depart = $data['depart'];
             $arrive = $data['arrive'];
-            $heureD = new \DateTime($data['heureDepart']);
-            $heureA = new \DateTime($data['heureArrive']);
+            $jour1 = new \DateTime($data['jour']);
+            $jour2 = new \DateTime($data['jour']);
+            $jour2->modify('+1 day');
 
             $repository = $this
                 ->getDoctrine()
@@ -41,7 +40,13 @@ class DefaultController extends Controller
                 ->getRepository('TrainBundle:Trajet')
             ;
 
-            $listTrajets = $repository->findByGareDAndGareA($depart, $arrive, $heureD->format('Y-m-d H:i'), $heureA->format('Y-m-d H:i'));
+            /*
+            if (depart)
+            $listTrajets = $repository->findByGareDAndGareADepart($depart, $arrive, $jour->format('Y-m-d'));
+            else (arriver)
+            $listTrajets = $repository->findByGareDAndGareAArrive($depart, $arrive, $jour->format('Y-m-d'));
+            */
+            $listTrajets = $repository->findByGareDAndGareADepart($depart, $arrive, $jour1->format('Y-m-d'), $jour2->format('Y-m-d'));
 
             return $this->render('TrainBundle::listTrajet.html.twig', array(
                 'trajets' => $listTrajets,

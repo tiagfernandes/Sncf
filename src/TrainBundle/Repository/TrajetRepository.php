@@ -10,7 +10,7 @@ namespace TrainBundle\Repository;
  */
 class TrajetRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findByGareDAndGareA($gareDepart, $gareArrive, $heureDepart, $heureArrive)
+    public function findByGareDAndGareADepart($gareDepart, $gareArrive, $jour1, $jour2)
     {
         $qb = $this->createQueryBuilder('t');
 
@@ -18,10 +18,28 @@ class TrajetRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('gareDepart', $gareDepart)
             ->andWhere('t.gareArrive = :gareArrive')
             ->setParameter('gareArrive', $gareArrive)
-            ->andWhere('t.heureDepart = :heureDepart')
-            ->setParameter('heureDepart', $heureDepart)
+            ->andWhere('t.heureDepart BETWEEN :jour1 and :jour2')
+            ->setParameter('jour1', $jour1)
+            ->setParameter('jour2', $jour2)
+            ->orderBy('t.heureDepart', 'DESC')
+        ;
+
+        return $qb
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByGareDAndGareAArrive($gareDepart, $gareArrive, $jour)
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->where('t.gareDepart = :gareDepart')
+            ->setParameter('gareDepart', $gareDepart)
+            ->andWhere('t.gareArrive = :gareArrive')
+            ->setParameter('gareArrive', $gareArrive)
             ->andWhere('t.heureArrive = :heureArrive')
-            ->setParameter('heureArrive', $heureArrive)
+            ->setParameter('heureArrive', $jour)
             ->orderBy('t.heureDepart', 'DESC')
         ;
 
