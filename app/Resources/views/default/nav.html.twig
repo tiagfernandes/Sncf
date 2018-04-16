@@ -1,0 +1,15 @@
+
+{% block nav %}
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">SNCF</a>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <a>Bonjour {{ app.user.username }}</a>
+                    <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+            {% else %}
+                <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Connexion</a>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}
+

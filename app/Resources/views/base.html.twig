@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body >
+        {% block javascripts %}{% endblock %}
+
+
+        {% include 'default/nav.html.twig' %}
+
+
+        {% block body %}{% endblock %}
+
+
+        {% include 'default/footer.html.twig' %}
+
+        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
+        </div>
+        </body>
+</html>
