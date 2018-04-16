@@ -30,6 +30,22 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {{ form_label(form.heureDepart, "Heure de départ", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                    {{ form_errors(form.heureDepart) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.heureDepart) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.heureArrive, "Heure de arrivé", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                    {{ form_errors(form.heureArrive) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.heureArrive) }}
+                    </div>
+                </div>
+
 
                 {{ form_widget(form.send, {'attr': {'class': 'btn btn-primary'} ,  'label': 'Trouver mon train' }) }}
 

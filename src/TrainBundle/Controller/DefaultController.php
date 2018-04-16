@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class DefaultController extends Controller
 {
@@ -18,6 +19,8 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder()
             ->add('depart', TextType::class)
             ->add('arrive', TextType::class)
+            ->add('heureDepart', DateTimeType::class)
+            ->add('heureArrive', DateTimeType::class)
             ->add('send', SubmitType::class)
             ->getForm();
 
