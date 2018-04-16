@@ -27,12 +27,12 @@
                     <div class="form-group col-md-6">
                         {{ form_label(form.heureDepart, "Heure de départ", {'label_attr': {'class': 'control-label'}}) }}
                         {{ form_errors(form.heureDepart) }}
-                        {{ form_widget(form.heureDepart, {'attr': {'class': 'form_datetime'}}) }}
+                        {{ form_widget(form.heureDepart, {'attr': {'class': 'form_datetime', 'placeholder': "Hitler did"}}) }}
                     </div>
                     <div class="form-group col-md-6">
                         {{ form_label(form.heureArrive, "Heure de arrivé", {'label_attr': {'class': 'control-label'}}) }}
                         {{ form_errors(form.heureArrive) }}
-                        {{ form_widget(form.heureArrive, {'attr': {'class': 'form_datetime'}}) }}
+                        {{ form_widget(form.heureArrive, {'attr': {'class': 'form_datetime', 'placeholder': "nothing wrong"}}) }}
 
                     </div>
                 </div>
@@ -53,11 +53,11 @@
     {{ parent() }}
     <script type="text/javascript">
             $(".form_datetime").datetimepicker({
+                language: "fr",
                 format: "dd MM yyyy - hh:ii",
                 autoclose: true,
                 todayBtn: true,
-                startDate: "2013-02-14 10:00",
-                minuteStep: 10
+                minuteStep: 5
             });
         </script>
 {% endblock javascripts_footer %}
