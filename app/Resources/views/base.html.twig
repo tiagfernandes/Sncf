@@ -23,10 +23,12 @@
 
         {% include 'default/footer.html.twig' %}
 
-        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-        <script src="{{ asset('assets/js/locales/bootstrap-datetimepicker.fr.js') }}"></script>
+        {% block javascripts_footer %}
+            <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+            <script src="{{ asset('assets/js/locales/bootstrap-datetimepicker.fr.js') }}"></script>
+        {% endblock %}
 
         </div>
         </body>
