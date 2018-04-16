@@ -19,10 +19,8 @@ class DefaultController extends Controller
         $form = $this->createFormBuilder()
             ->add('depart', TextType::class)
             ->add('arrive', TextType::class)
-            ->add('heureDepart', 'datetime', array('widget' => 'single_text',
-                'date_format' => 'yyyy-mm-dd HH:mm'))
-            ->add('heureArrive', 'datetime', array('widget' => 'single_text',
-                'date_format' => 'yyyy-mm-dd HH:mm'))
+            ->add('heureDepart', 'text')
+            ->add('heureArrive', 'text')
             ->add('send', SubmitType::class)
             ->getForm();
 
@@ -34,8 +32,8 @@ class DefaultController extends Controller
 
             $depart = $data['depart'];
             $arrive = $data['arrive'];
-            $heureD = $data['heureDepart']->format('Y-m-d H:i');
-            $heureA = $data['heureArrive']->format('Y-m-d H:i');
+            $heureD = new \DateTime($data['heureDepart']);
+            $heureA = new \DateTime($data['heureArrive']);
 
             $repository = $this
                 ->getDoctrine()
@@ -43,7 +41,7 @@ class DefaultController extends Controller
                 ->getRepository('TrainBundle:Trajet')
             ;
 
-            $listTrajets = $repository->findByGareDAndGareA($depart, $arrive, $heureD, $heureA);
+            $listTrajets = $repository->findByGareDAndGareA($depart, $arrive, $heureD->format('Y-m-d H:i'), $heureA->format('Y-m-d H:i'));
 
             return $this->render('TrainBundle::listTrajet.html.twig', array(
                 'trajets' => $listTrajets,
