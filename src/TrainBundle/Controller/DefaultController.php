@@ -86,26 +86,27 @@ class DefaultController extends Controller
 
 
         $securityContext = $this->container->get('security.authorization_checker');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+        if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             $form = $this->createFormBuilder()
-                ->add('email', EmailType::class)
                 ->add('send', SubmitType::class)
                 ->getForm();
         } else {
+
             $form = $this->createFormBuilder()
+                ->add('email', EmailType::class)
                 ->add('send', SubmitType::class)
                 ->getForm();
         }
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+                if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    $user = $this->getUser();
+                } else {
                     $data = $form->getData();
                     $email = $data['email'];
                     $userManager = $this->get('fos_user.user_manager');
                     $user = $userManager->findUserBy(array('email' => $email));
-                } else {
-                    $user = $this->getUser();
                 }
 
                 /**
