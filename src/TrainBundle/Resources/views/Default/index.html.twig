@@ -2,6 +2,13 @@
 
 {% block body %}
     <div class="container">
+        {% if app.session.flashBag.has('success') %}
+            <div class="alert alert-success">
+                {% for msg in app.session.flashBag.get('merci') %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+        {% endif %}
         <br>
         <h1>Réserver un train</h1>
         <br>

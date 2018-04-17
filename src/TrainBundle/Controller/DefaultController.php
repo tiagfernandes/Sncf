@@ -7,7 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use UserBundle\Entity\Reservation;
 
 class DefaultController extends Controller
 {
@@ -67,21 +69,84 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/reservation/{idTrajet}")
+     * @Route("/reservation/{idTrajet}", name="reservation")
      */
-    public function itineraireAction($idTrajet)
+    public function itineraireAction(Request $request, $idTrajet)
     {
         $repository = $this
             ->getDoctrine()
             ->getManager()
-            ->getRepository('TrainBundle:Trajet')
-        ;
+            ->getRepository('TrainBundle:Trajet');
 
-        $reservation = $repository->findOneById($idTrajet);
-        /**
-         * enregistrer la reservation avec l'user si actif, sinon demander email et creer un compte vide
-         */
-        return $this->render('TrainBundle::resa.html.twig');
+        $trajet = $repository->findOneById($idTrajet);
+
+        if ($trajet == null) {
+            throw new NotFoundHttpException("Page not found");
+        }
+
+
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $form = $this->createFormBuilder()
+                ->add('send', SubmitType::class)
+                ->getForm();
+        } else {
+
+            $form = $this->createFormBuilder()
+                ->add('email', EmailType::class)
+                ->add('send', SubmitType::class)
+                ->getForm();
+        }
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+                    $user = $this->getUser();
+                } else {
+                    $data = $form->getData();
+                    $email = $data['email'];
+                    $userManager = $this->get('fos_user.user_manager');
+                    $user = $userManager->findUserBy(array('email' => $email));
+                }
+
+                /**
+                 * Verif user
+                 */
+                if ($user == null) {
+                    $user = $userManager->createUser();
+                    $user->setEmail($email);
+                    $user->setUsername($email);
+                    $user->setPlainPassword($email);
+                    $userManager->updateUser($user);
+
+                }
+
+                $reservation = new Reservation();
+                $reservation->setUser($user);
+                $reservation->setIsPay(true);
+                $reservation->setTrajet($trajet);
+                $reservation->setGareArrive($trajet->getGareArrive()->getName());
+                $reservation->setGareDepart($trajet->getGareDepart()->getName());
+                $reservation->setTarif($trajet->getTarif());
+                $reservation->setDevise($trajet->getDevise());
+                $reservation->setSiege(25);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($reservation);
+                $em->flush();
+
+                $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', 'GGWP');
+
+                return $this->redirectToRoute('index');
+            }
+
+
+        return $this->render('TrainBundle::resa.html.twig', array(
+            'trajet' => $trajet,
+            'form' => $form->createView(),
+        ));
     }
 
 }

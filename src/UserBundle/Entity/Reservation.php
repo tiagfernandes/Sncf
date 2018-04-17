@@ -83,6 +83,11 @@ class Reservation
     private $gareArrive;
 
 
+    public function __construct()
+    {
+        $this->setDate(new \DateTime());
+    }
+
     /**
      * Get id
      *

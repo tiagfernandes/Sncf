@@ -10,4 +10,6 @@ namespace UserBundle\Repository;
  */
 class ReservationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
 }
