@@ -2,17 +2,39 @@
 
 {% block body %}
     <div class="container">
-        <br><br>
-        <h1>Train : </h1>
+        <h1>Réservation</h1>
         <br><br>
         <div class="row">
-            <h5 class="card-text">Gare de Départ : {{ trajet.gareDepart.name }}</h5>
-            <p class="card-text">Gare d'Arrivé : {{ trajet.gareArrive.name }}</p>
-            <p class="card-text">Heure de Départ : {{ trajet.heureDepart|date("d/m/y H:i") }}</p>
-            <p class="card-text">Heure d'Arrivé : {{ trajet.heureArrive|date("d/m/y H:i") }}</p>
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="shadow p-4 mb-4 bg-white rounded border border-light">
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                    {# Les erreurs générales du formulaire. #}
+                    {{ form_errors(form) }}
+                    {# Génération manuelle et éclatée : #}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <h5 class="card-text">Gare de Départ : {{ trajet.gareDepart.name }}</h5>
+                            <p class="card-text">Gare d'Arrivé : {{ trajet.gareArrive.name }}</p>
+                            <p class="card-text">Heure de Départ : {{ trajet.heureDepart|date("d/m/y H:i") }}</p>
+                            <p class="card-text">Heure d'Arrivé : {{ trajet.heureArrive|date("d/m/y H:i") }}</p>
+                        </div>
+                    </div>
+                    {% if not app.user %}
+                    <div class="form-group col-md-6">
+                        {{ form_label(form.email, "Email", {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_errors(form.email) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': "JeSuis@uneAdresse.bidon"}}) }}
+                    </div>
+                    {% endif %}
+                    <div class="text-right">
+                        {{ form_widget(form.send, {'attr': {'class': 'btn btn-warning'} ,  'label': 'Réserver' }) }}
+                    </div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
         </div>
 
-            {{  form(form) }}
     </div>
-    <br><br>
 {% endblock body %}

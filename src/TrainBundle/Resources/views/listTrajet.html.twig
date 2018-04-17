@@ -6,6 +6,19 @@
         <h1>Liste des trains</h1>
         <br><br>
         <div class="row">
+            {% if trajets is empty %}
+                <div class="col-md-4">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-header">
+                         <h5>Il n'y a aucun train</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><b><u>/!\</u>     Raison grêve     <u>/!\</u></b></p>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            {% else %}
                 {% for trajet in trajets %}
                     <div class="col-md-4">
                         <div class="card" style="width: 100%;">
@@ -25,6 +38,7 @@
                         <br>
                     </div>
                 {% endfor %}
+            {% endif %}
         </div>
     </div>
     <br><br>

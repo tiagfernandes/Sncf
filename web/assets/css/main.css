@@ -1,0 +1,11 @@
+body {
+   background-image:url("https://media.giphy.com/media/3o72FazHSk56iRRzRS/giphy.gif");
+   background-attachment: fixed;
+   background-repeat : no-repeat;
+   background-position: top;
+   background-size:  cover;
+}
+h1 {
+	color: white;
+	text-shadow: 2px 2px #00004d;
+}
