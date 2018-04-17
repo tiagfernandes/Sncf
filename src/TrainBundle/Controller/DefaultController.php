@@ -86,27 +86,26 @@ class DefaultController extends Controller
 
 
         $securityContext = $this->container->get('security.authorization_checker');
-        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
             $form = $this->createFormBuilder()
+                ->add('email', EmailType::class)
                 ->add('send', SubmitType::class)
                 ->getForm();
         } else {
-
             $form = $this->createFormBuilder()
-                ->add('email', EmailType::class)
                 ->add('send', SubmitType::class)
                 ->getForm();
         }
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-                    $user = $this->getUser();
-                } else {
+                if ($securityContext->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
                     $data = $form->getData();
                     $email = $data['email'];
                     $userManager = $this->get('fos_user.user_manager');
                     $user = $userManager->findUserBy(array('email' => $email));
+                } else {
+                    $user = $this->getUser();
                 }
 
                 /**
@@ -137,7 +136,7 @@ class DefaultController extends Controller
 
                 $request->getSession()
                     ->getFlashBag()
-                    ->add('success', 'GGWP');
+                    ->add('success', 'Votre réservation est confirmé !');
 
                 return $this->redirectToRoute('index');
             }
