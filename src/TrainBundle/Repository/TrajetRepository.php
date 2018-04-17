@@ -14,10 +14,14 @@ class TrajetRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('t');
 
-        $qb->where('t.gareDepart = :gareDepart')
-            ->setParameter('gareDepart', $gareDepart)
-            ->andWhere('t.gareArrive = :gareArrive')
-            ->setParameter('gareArrive', $gareArrive)
+        $qb->leftJoin('t.gareDepart', 'gD')
+            ->leftJoin('t.gareArrive', 'gA')
+            ->leftJoin('gA.ville', 'vA')
+            ->leftJoin('gD.ville', 'vD')
+            ->where('vD.city = :gareDepart')
+                ->setParameter('gareDepart', $gareDepart)
+            ->andWhere('vA.city = :gareArrive')
+                ->setParameter('gareArrive', $gareArrive)
             ->andWhere('t.heureDepart BETWEEN :jour1 and :jour2')
             ->setParameter('jour1', $jour1)
             ->setParameter('jour2', $jour2)
@@ -34,9 +38,13 @@ class TrajetRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('t');
 
-        $qb->where('t.gareDepart = :gareDepart')
+        $qb->leftJoin('t.gareDepart', 'gD')
+            ->leftJoin('t.gareArrive', 'gA')
+            ->leftJoin('gA.ville', 'vA')
+            ->leftJoin('gD.ville', 'vD')
+            ->where('vD.city = :gareDepart')
             ->setParameter('gareDepart', $gareDepart)
-            ->andWhere('t.gareArrive = :gareArrive')
+            ->andWhere('vA.city = :gareArrive')
             ->setParameter('gareArrive', $gareArrive)
             ->andWhere('t.heureArrive BETWEEN :jour1 and :jour2')
             ->setParameter('jour1', $jour1)

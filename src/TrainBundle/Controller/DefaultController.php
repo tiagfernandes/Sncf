@@ -54,6 +54,7 @@ class DefaultController extends Controller
                 $listTrajets = $repository->findByGareDAndGareAArrive($depart, $arrive, $jour1->format('Y-m-d'), $jour2->format('Y-m-d'));
             }
 
+
             return $this->render('TrainBundle::listTrajet.html.twig', array(
                 'trajets' => $listTrajets,
             ));
@@ -66,11 +67,21 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/itineraire")
+     * @Route("/reservation/{idTrajet}")
      */
-    public function itineraireAction()
+    public function itineraireAction($idTrajet)
     {
-        return $this->render('TrainBundle:Default:index.html.twig');
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('TrainBundle:Trajet')
+        ;
+
+        $reservation = $repository->findOneById($idTrajet);
+        /**
+         * enregistrer la reservation avec l'user si actif, sinon demander email et creer un compte vide
+         */
+        return $this->render('TrainBundle::resa.html.twig');
     }
 
 }

@@ -28,6 +28,12 @@ class Train
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TrainBundle\Entity\Wagon", mappedBy="train")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $wagons;
+
 
     /**
      * Get id
@@ -61,5 +67,46 @@ class Train
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->wagons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add wagon
+     *
+     * @param \TrainBundle\Entity\Wagon $wagon
+     *
+     * @return Train
+     */
+    public function addWagon(\TrainBundle\Entity\Wagon $wagon)
+    {
+        $this->wagons[] = $wagon;
+
+        return $this;
+    }
+
+    /**
+     * Remove wagon
+     *
+     * @param \TrainBundle\Entity\Wagon $wagon
+     */
+    public function removeWagon(\TrainBundle\Entity\Wagon $wagon)
+    {
+        $this->wagons->removeElement($wagon);
+    }
+
+    /**
+     * Get wagons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWagons()
+    {
+        return $this->wagons;
     }
 }

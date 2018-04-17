@@ -29,7 +29,7 @@ class Wagon
     private $letter;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TrainBundle\Entity\Train")
+     * @ORM\ManyToOne(targetEntity="TrainBundle\Entity\Train", inversedBy="wagons")
      * @ORM\JoinColumn(nullable=false)
      */
     private $train;

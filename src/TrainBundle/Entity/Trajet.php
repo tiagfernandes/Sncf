@@ -34,16 +34,14 @@ class Trajet
     private $gareDeservis;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="gareDepart", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="TrainBundle\Entity\Gare")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $gareDepart;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="gareArrive", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="TrainBundle\Entity\Gare")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $gareArrive;
 

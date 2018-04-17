@@ -13,8 +13,8 @@
                              <b>Train : </b>{{ trajet.train.name }}
                             </div>
                             <div class="card-body">
-                                <h5 class="card-text">Gare de Départ : {{ trajet.gareDepart }}</h5>
-                                <p class="card-text">Gare d'Arrivé : {{ trajet.gareArrive }}</p>
+                                <h5 class="card-text">Gare de Départ : {{ trajet.gareDepart.name }}</h5>
+                                <p class="card-text">Gare d'Arrivé : {{ trajet.gareArrive.name }}</p>
                                 <p class="card-text">Heure de Départ : {{ trajet.heureDepart|date("d/m/y H:i") }}</p>
                                 <p class="card-text">Heure d'Arrivé : {{ trajet.heureArrive|date("d/m/y H:i") }}</p>
                                 <div class="text-right">
